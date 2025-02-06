@@ -1,0 +1,7 @@
+# Terraform
+.terraform
+*.tfstate
+*.tfstate.backup
+## Ignore the terraform lock file to ensure cross platform compatibility
+.terraform.lock.hcl
+
