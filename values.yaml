@@ -11,9 +11,8 @@ default:
       valueFrom:
         fieldRef:
           fieldPath: status.hostIP
-#    - name: OTEL_COLLECTOR_NAME
-#      value: "$(NODE)"
-#  #    value: '{{ include "otel-demo.name" . }}-otelcol'
+    - name: OTEL_COLLECTOR_NAME
+      value: '{{ include "otel-demo.name" . }}-otelcol'
     - name: OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE
       value: cumulative
     - name: OTEL_RESOURCE_ATTRIBUTES
@@ -483,7 +482,7 @@ components:
       - name: LOCUST_WEB_PORT
         value: "8089"
       - name: LOCUST_USERS
-        value: "10"
+        value: "100"
       - name: LOCUST_SPAWN_RATE
         value: "1"
       - name: LOCUST_HOST
