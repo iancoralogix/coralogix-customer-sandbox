@@ -2,9 +2,9 @@
 
 set -eiou pipefail
 
-#pushd terraform
-#terraform init
-#terraform apply --auto-approve
+pushd terraform
+terraform init
+terraform apply --auto-approve
 
 CORALOGIX_DOMAIN="${CORALOGIX_DOMAIN:-cx498.coralogix.com}"
 
