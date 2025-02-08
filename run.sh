@@ -59,39 +59,12 @@ if [ -n "${CORALOGIX_PRIVATE_KEY}" ] && [ -n "${CORALOGIX_RUM_KEY}" ]; then
   cat <<EOF > tmp.yaml
 components:
   loadgenerator:
-    enabled: false
-
-  recommendationService:
-    imageOverride:
-      repository: "otel/demo"
-      tag: "1.12.0-recommendationservice"
-    sidecarContainers:
-      - name: flagd-ui
-        imageOverride:
-          repository: dambott2/otelrum
-          tag: "1.12.0-flagd-ui"
+    enabled: true
 
   frontend:
     envOverrides:
-      - name: FORCE_RESTART
-        value: "true"
       - name: PUBLIC_OTEL_EXPORTER_OTLP_TRACES_ENDPOINT
         value: "${OTEL_LOADBALANCER_ENDPOINT}"
-      - name: CORALOGIX_RUM_ENABLE
-        value: "true"
-      - name: CORALOGIX_RUM_KEY
-        valueFrom:
-          secretKeyRef:
-            name: coralogix-rum-key
-            key: RUM_KEY
-      - name: CORALOGIX_RUM_ENV
-        value: my-otel-demo
-      - name: CORALOGIX_RUM_APP
-        value: my-otel-demo-rum
-      - name: CORALOGIX_RUM_DOMAIN
-        value: "US2"
-      - name: CORALOGIX_RUM_VERSION
-        value: "1"
 EOF
 
   echo "Deploying OpenTelemetry Astronomy Shop demo"
@@ -102,9 +75,8 @@ EOF
     --set prometheus.enabled=false \
     --set grafana.enabled=false \
     --set opensearch.enabled=false \
+    -f values.yaml \
     -f tmp.yaml
-
-#    -f values.yaml \
 
   rm tmp.yaml
 
