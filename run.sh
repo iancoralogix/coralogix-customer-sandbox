@@ -5,6 +5,7 @@ set -eiou pipefail
 pushd terraform
 terraform init
 terraform apply --auto-approve
+popd
 
 CORALOGIX_DOMAIN="${CORALOGIX_DOMAIN:-cx498.coralogix.com}"
 
@@ -80,10 +81,15 @@ EOF
 
   rm tmp.yaml
 
+  echo "Deploying frontend clicker for to generate RUM data"
   kubectl apply -f frontendclicker-deployment.yaml
 
-  echo "Waiting for frontend proxy to be ready"
-  kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=my-otel-demo-frontendproxy --timeout=300s
+  echo "Waiting for frontend proxy pod to be ready"
+  if kubectl get pod -l app.kubernetes.io/name=my-otel-demo-frontendproxy --no-headers 2>/dev/null | grep -q .; then
+    kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=my-otel-demo-frontendproxy --timeout=300s
+  else
+    echo "No frontend proxy pods found. Skipping wait."
+  fi
 
   echo "Creating LoadBalancer for frontend proxy"
   if ! kubectl get svc frontendproxy >/dev/null 2>&1; then
@@ -91,6 +97,11 @@ EOF
       --port=8080 --target-port=8080 \
       --name=frontendproxy --type=LoadBalancer
   fi
+
+  until kubectl get svc frontendproxy -o jsonpath='{.status.loadBalancer.ingress}' | grep -q -v "pending"; do
+    echo "Waiting for frontend proxy load balancer to be ready"
+    sleep 2
+  done
 
   URL=$(kubectl get svc frontendproxy -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
   EXPOSE="http://${URL}:8080"
