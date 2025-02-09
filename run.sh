@@ -107,7 +107,7 @@ EOF
   EXPOSE="http://${URL}:8080"
 
   echo "---------------------------------------------------"
-  echo "OpenTelemetry Demo is now available at:"
+  echo "OpenTelemetry Demo Store UI (make take 2 mins):"
   echo "${EXPOSE}"
   echo "---------------------------------------------------"
 
