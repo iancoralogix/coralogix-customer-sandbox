@@ -1,18 +1,31 @@
 # Coralogix OTEL Demo Sandbox
 
 ## Overview
-- Deploys an Amazon EKS cluster and installs the OpenTelemetry demo application, which sends telemetry to Coralogix.
-- Includes scripts to provision and tear down infrastructure, plus a custom “frontend clicker” deployment for RUM data generation.
+- Deploys an Amazon EKS cluster and installs the [OpenTelemetry demo application](https://github.com/open-telemetry/opentelemetry-helm-charts), which sends telemetry to Coralogix with this Helm chart [https://github.com/coralogix/telemetry-shippers/tree/master/otel-integration/k8s-helm](https://github.com/coralogix/telemetry-shippers/tree/master/otel-integration/k8s-helm).
+- Includes scripts to provision and tear down infrastructure, plus a “frontend clicker” deployment for RUM data generation.
 
 ## Prerequisites
-- AWS CLI configured with enough privileges to create EKS resources.
-- Terraform (tested with the terraform directory used by the scripts).
-- Helm for chart installations.
-- kubectl to interact with the EKS cluster.
+- AWS CLI configured with enough privileges to create EKS resources
+- Terraform
+- Helm for chart installations
+- kubectl to interact with the EKS cluster
 - Environment variables for Coralogix:
   - **CORALOGIX_PRIVATE_KEY** (Coralogix private key)
   - **CORALOGIX_RUM_KEY** (Coralogix RUM key)
   - (Optional) **CORALOGIX_DOMAIN** (defaults to `cx498.coralogix.com`)
+    
+## Deployment Steps
+1. Ensure `CORALOGIX_PRIVATE_KEY` and `CORALOGIX_RUM_KEY` are exported in your shell.
+2. Run `./run.sh`
+3. Wait for the script to finish. It will display a LoadBalancer URL for the demo’s frontend.
+
+## Verification
+- After the script is complete, open the printed URL in a browser.
+- The OpenTelemetry demo UI should load, and data should flow into Coralogix.
+
+## Teardown
+- To remove all resources, run `./delete.sh`
+- This deletes the Kubernetes services and destroys the Terraform-managed EKS infrastructure.
 
 ## Files
 - **run.sh**
@@ -37,15 +50,3 @@
   - Configures microservices, Jaeger, Prometheus, Grafana, and other components.
   - Sets environment variables, resource limits, and references to Coralogix collectors.
 
-## Deployment Steps
-1. Ensure `CORALOGIX_PRIVATE_KEY` and `CORALOGIX_RUM_KEY` are exported in your shell.
-2. Run `./run.sh`
-3. Wait for the script to finish. It will display a LoadBalancer URL for the demo’s frontend.
-
-## Verification
-- After the script completes, open the printed URL in a browser.
-- The OpenTelemetry demo UI should load, and data should flow into Coralogix.
-
-## Teardown
-- To remove all resources, run `./delete.sh`
-- This deletes the Kubernetes services and destroys the Terraform-managed EKS infrastructure.
