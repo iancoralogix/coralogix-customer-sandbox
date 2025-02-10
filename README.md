@@ -1,4 +1,4 @@
-# Coralogix OTEL Demo Sandbox
+# Coralogix OTel Demo Sandbox
 
 ## Overview
 - Deploys an Amazon EKS cluster and installs the [OpenTelemetry demo application](https://github.com/open-telemetry/opentelemetry-helm-charts), which sends telemetry to Coralogix with this Helm chart [https://github.com/coralogix/telemetry-shippers/tree/master/otel-integration/k8s-helm](https://github.com/coralogix/telemetry-shippers/tree/master/otel-integration/k8s-helm).
