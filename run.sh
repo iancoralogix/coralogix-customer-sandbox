@@ -34,7 +34,7 @@ if [ -n "${CORALOGIX_PRIVATE_KEY}" ] && [ -n "${CORALOGIX_RUM_KEY}" ]; then
     --set global.domain="${CORALOGIX_DOMAIN}" \
     --set global.clusterName="${CLUSTER_NAME}-eks" \
     --set opentelemetry-agent.fullnameOverride="my-otel-demo-otelcol" \
-    --set opentelemetry-agent.mode="deployment"
+    --set opentelemetry-agent.mode="daemonset"
 
   echo "Creating OTel collector load balancer for frontend traces"
   if ! kubectl get svc rum-otel-collection >/dev/null 2>&1; then
