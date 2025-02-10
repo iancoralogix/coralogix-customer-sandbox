@@ -17,7 +17,7 @@
 ## Deployment Steps
 1. Ensure `CORALOGIX_PRIVATE_KEY` and `CORALOGIX_RUM_KEY` are exported in your shell.
 2. Run `./run.sh`
-3. Wait for the script to finish. It will display a LoadBalancer URL for the demo’s frontend.
+3. Wait for the script to finish. It will display a URL for the demo’s frontend.
 
 ## Verification
 - After the script is complete, open the printed URL in a browser.
