@@ -47,6 +47,4 @@
 
 - **values.yaml**
   - Helm values for the OpenTelemetry Demo chart.
-  - Configures microservices, Jaeger, Prometheus, Grafana, and other components.
-  - Sets environment variables, resource limits, and references to Coralogix collectors.
 
